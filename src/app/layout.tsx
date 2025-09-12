@@ -1,16 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {  Lato ,Questrial} from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner"
+import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+
+
+
+const questrial = Questrial({
+  variable: "--font-questrial",
   subsets: ["latin"],
+  weight: "400",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const lato = Lato({
+  variable: "--font-lato",
+  weight: ["400", "700"],
   subsets: ["latin"],
-});
+})
+
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,10 +34,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${questrial.variable} ${lato.variable} antialiased`}>
+        <Navbar />
         {children}
+        <Footer />
+        <Toaster theme="dark" richColors />
       </body>
     </html>
   );
