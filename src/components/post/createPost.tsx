@@ -1,9 +1,15 @@
 "use client";
 import TextEditor from "@/components/post/text-editor";
 import { createPost } from "@/services/postServices";
-import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "sonner";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const CreatPost = () => {
   const handlePostSubmit = async (post: {
@@ -22,9 +28,19 @@ const CreatPost = () => {
     }
   };
   return (
-    <div>
-      <div className="max-w-6xl mx-auto py-8">
-        <TextEditor onSubmit={handlePostSubmit} />
+    <div className="bg-background">
+      <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
+        <Card className="border-muted/40">
+          <CardHeader>
+            <CardTitle>Create post</CardTitle>
+            <CardDescription>
+              Compose a new article and publish it.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TextEditor onSubmit={handlePostSubmit} />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

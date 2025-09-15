@@ -1,28 +1,27 @@
 import Image from "next/image";
 import React from "react";
 
-type Category = { _id: string; name: string };
+type Category = { _id: string; name: string }
+type Author = { _id: string; username: string };
 type Post = {
   id: string;
   title: string;
   content: string;
   categoryIds?: Category[];
-  author?: string;
-  date?: string;
+  authorIds?: Author[];
+  publishDate?: string;
   thumbnail?: string;
 };
 
-
-const PostCard = ({post}: {post:Post}) => {
+const PostCard = ({ post }: { post: Post }) => {
   return (
     <div className="rounded-lg shadow-md bg-neutral-100 hover:shadow-lg transition-shadow duration-300 ">
-      <Image
-        src="/images/hero.jpg"
-        alt="Post image"
-        width={600}
-        height={300}
+      {/* Thumbnail */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={post.thumbnail || "/images/hero.jpg"}
+        alt={post.title}
         className=" lg:rounded-t-lg w-full object-cover aspect-[2/1]"
-        priority
       />
       <div className="p-4 space-y-2">
         {post.categoryIds?.map((cat) => (
@@ -43,8 +42,16 @@ const PostCard = ({post}: {post:Post}) => {
             {/* Optionally add author image here */}
           </div>
           <div>
-            <span className="font-semibold text-sm">Author Name</span>
-            <p className="text-xs text-neutral-500">Date</p>
+            {post.authorIds?.map((auth) => (
+              <span className="font-semibold text-sm">
+                {auth?.username || "Unknown Author"}
+              </span>
+            ))}
+            <p className="text-xs text-neutral-500">
+              {post.publishDate
+                ? new Date(post.publishDate).toLocaleDateString()
+                : ""}
+            </p>
           </div>
         </div>
       </div>

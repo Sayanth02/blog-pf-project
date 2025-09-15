@@ -18,7 +18,7 @@ const PostSchema = new Schema<IPost>(
   {
     title: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
-    authorIds: [{ type: Schema.Types.ObjectId, ref: "Author", required: true }],
+    authorIds: [{ type: Schema.Types.ObjectId, ref: "User", required: true }],
     publishDate: { type: Date, default: Date.now },
     content: { type: String, required: true },
     categoryIds: [

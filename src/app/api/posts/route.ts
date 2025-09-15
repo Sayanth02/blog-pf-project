@@ -1,6 +1,7 @@
 import connectDB from "@/lib/mongodb";
 import post from "@/models/post";
 import "@/models/category";
+import "@/models/user";
 import { Types } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import { requireRole } from "../auth/withAuth";
@@ -31,6 +32,7 @@ export async function GET(request: NextRequest) {
           publishDate: 1,
           thumbnail: 1,
           summary: 1,
+          authorIds: 1,
           categoryIds: 1,
           isFeatured: 1,
         })
@@ -38,6 +40,7 @@ export async function GET(request: NextRequest) {
         .skip(skip)
         .limit(limit)
         .populate("categoryIds", "name")
+        .populate("authorIds", "username")
         .lean(),
       post.countDocuments({}),
     ]);
@@ -103,6 +106,25 @@ export async function POST(request: NextRequest) {
         { error: "Missing required fields" },
         { status: 400 }
       );
+    }
+
+    // validate thumbnail host (allow Cloudinary only if provided)
+    if (thumbnail) {
+      try {
+        const u = new URL(thumbnail);
+        const allowedHosts = ["res.cloudinary.com"];
+        if (!allowedHosts.some((h) => u.hostname.endsWith(h))) {
+          return NextResponse.json(
+            { error: "Invalid thumbnail host" },
+            { status: 400 }
+          );
+        }
+      } catch {
+        return NextResponse.json(
+          { error: "Invalid thumbnail URL" },
+          { status: 400 }
+        );
+      }
     }
 
     const newPost = await post.create({
