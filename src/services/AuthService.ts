@@ -35,11 +35,12 @@ export const loginApi = async ({email,password}:signInData) => {
         const res = await axios.post(
           "api/auth/signin",
           {
-            emailOrUsername:email,
-            password:password,
+            emailOrUsername: email,
+            password: password,
           },
           {
             headers: { "Content-Type": "application/json" },
+            withCredentials: true,
           }
         );
         return res.data;

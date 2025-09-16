@@ -1,39 +1,29 @@
-"use client";
-import React from "react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
-type ProfileHeaderProps = {
-  username: string;
-  role: string;
-  profileImageUrl?: string;
-};
-
-const ProfileHeader: React.FC<ProfileHeaderProps> = ({
+export default function ProfileHeader({
   username,
   role,
   profileImageUrl,
-}) => {
+}: {
+  username: string;
+  role: string;
+  profileImageUrl?: string;
+}) {
   return (
     <div className="flex items-center gap-4">
-      <div className="h-16 w-16 rounded-full overflow-hidden bg-neutral-200 flex items-center justify-center">
+      <Avatar className="h-16 w-16">
         {profileImageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={profileImageUrl}
-            alt={username}
-            className="h-full w-full object-cover"
-          />
+          <AvatarImage src={profileImageUrl} alt={username} />
         ) : (
-          <span className="text-neutral-500 text-sm">No Image</span>
+          <AvatarFallback className="bg-blue-500 text-white text-xl">
+            {username?.charAt(0).toUpperCase()}
+          </AvatarFallback>
         )}
-      </div>
+      </Avatar>
       <div>
-        <div className="text-lg font-semibold">{username}</div>
-        <div className="text-xs inline-block px-2 py-0.5 rounded border border-neutral-300 text-neutral-600">
-          {role}
-        </div>
+        <h1 className="text-xl font-semibold">{username}</h1>
+        <p className="text-sm text-gray-500">{role}</p>
       </div>
     </div>
   );
-};
-
-export default ProfileHeader;
+}

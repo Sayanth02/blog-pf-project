@@ -5,16 +5,25 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaUserCircle } from "react-icons/fa";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  type UserProps = {
+    username?: string;
+    profileImageUrl?: string;
+  };
+
+  const [user, setUser] = useState<UserProps | null>(null);
+
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const res = await getCurrentUser();
+        setUser(res)
         setIsAuthenticated(!!res);
       } catch (error) {
         console.error("Error checking authentication:", error);
@@ -71,7 +80,23 @@ const Navbar = () => {
             className="flex items-center focus:outline-none"
             type="button"
           >
-            <FaUserCircle className="text-2xl text-neutral-700 hover:text-neutral-900 transition-colors" />
+            {user ? (
+              // user exists → show avatar with initials or profile image
+              <Avatar className="h-10 w-10">
+                {user.profileImageUrl ? (
+                  <AvatarImage
+                    src={user.profileImageUrl}
+                    alt={user.username || "profile image"}
+                  />
+                ) : (
+                  <AvatarFallback className="bg-blue-500 text-white text-xl">
+                    {user.username?.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                )}
+              </Avatar>
+            ) : (
+              <FaUserCircle className="text-2xl text-neutral-700 hover:text-neutral-900 transition-colors" />
+            )}
           </button>
           {showProfileMenu && (
             <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded py-2 z-50">

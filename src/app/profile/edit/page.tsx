@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import ProfileImageUploader from "@/components/profile/ProfileImageUploader";
 
 type Me = {
   username: string;
@@ -109,6 +110,8 @@ export default function EditProfilePage() {
             onChange={(e) => setProfileImageUrl(e.target.value)}
             type="url"
           />
+
+          <ProfileImageUploader onUpload={(url) => setProfileImageUrl(url)} />
           <p className="text-xs text-neutral-500 mt-1">
             Use a square image for best results.
           </p>
