@@ -1,6 +1,7 @@
 import { model, models, Schema, Types } from "mongoose";
 
 export interface IPost extends Document {
+  _id: Types.ObjectId;
   title: string;
   slug: string;
   authorIds: Types.ObjectId[];
@@ -11,6 +12,7 @@ export interface IPost extends Document {
   summary?: string;
   thumbnail?: string;
   isFeatured? : boolean;
+  bookmarkCount?: number;
   relatedPostIds?: Types.ObjectId[];
 }
 
@@ -28,7 +30,8 @@ const PostSchema = new Schema<IPost>(
     summary: { type: String },
     thumbnail: { type: String },
     relatedPostIds: [{ type: Schema.Types.ObjectId, ref: "Post" }],
-    isFeatured : {type:Boolean, default:false}
+    isFeatured: { type: Boolean, default: false },
+    bookmarkCount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

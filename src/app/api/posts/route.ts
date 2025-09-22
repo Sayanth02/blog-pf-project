@@ -1,11 +1,12 @@
 import connectDB from "@/lib/mongodb";
 import post from "@/models/post";
 import "@/models/category";
-import "@/models/user";
+import User from "@/models/user";
 import { Types } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import { requireRole } from "../auth/withAuth";
 import { Policies } from "../auth/roles";
+import { getAuthContext } from "../auth/withAuth";
 
 export async function GET(request: NextRequest) {
   try {
@@ -24,6 +25,22 @@ export async function GET(request: NextRequest) {
       filter.isFeatured = true;
     }
 
+    // Determine user's bookmarks if authenticated
+    const ctx = await getAuthContext(request);
+    let bookmarkedSet = new Set<string>();
+    if (ctx) {
+      const user = await User.findById(ctx.userId)
+        .select("bookmarkedPostIds")
+        .lean<{ bookmarkedPostIds?: Types.ObjectId[] }>();
+      if (user?.bookmarkedPostIds) {
+        bookmarkedSet = new Set(
+          (user.bookmarkedPostIds as unknown as Types.ObjectId[]).map((id) =>
+            id.toString()
+          )
+        );
+      }
+    }
+
     const [items, total] = await Promise.all([
       post
         .find(filter, {
@@ -40,14 +57,20 @@ export async function GET(request: NextRequest) {
         .skip(skip)
         .limit(limit)
         .populate("categoryIds", "name")
-        .populate("authorIds", "username")
+        .populate("authorIds", "username profileDetails.profileImageUrl ")
         .lean(),
       post.countDocuments({}),
     ]);
 
+    // attach bookmark status
+    const dataWithBookmark = items.map((it: any) => ({
+      ...it,
+      isBookmarked: bookmarkedSet.has(it._id.toString()),
+    }));
+
     return NextResponse.json(
       {
-        data: items,
+        data: dataWithBookmark,
         pagination: {
           page,
           limit,
