@@ -65,6 +65,7 @@ const FtPost = () => {
                   categoryIds: p.categoryIds,
                   thumbnail: p.thumbnail,
                 }}
+                showBookmarkButton={false}
               />
             ))}
         </div>

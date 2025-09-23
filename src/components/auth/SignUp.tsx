@@ -26,7 +26,13 @@ export default function SignupForm() {
       toast.success(`Signup successful! Welcome ${res.username}` ,{
         position: "top-center"
       });
+      // Notify listeners (e.g., Navbar) that auth state changed
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("auth-changed"));
+      }
+      // Navigate to home and refresh to revalidate any server components
       router.push("/");
+      router.refresh();
     } catch (error:any) {
       toast.error(`Signup failed: ${error}`, {
         position: "top-center",

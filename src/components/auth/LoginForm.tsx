@@ -23,7 +23,13 @@ export default function LoginForm() {
       toast.success(`SignIn successful! Welcome ${res.username}` ,{
               position: "top-center"
             });
+      // Notify app that auth state changed so listeners (e.g., Navbar) can update immediately
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("auth-changed"));
+      }
+      // Navigate to home and refresh to ensure any server components revalidate
       router.push("/");
+      router.refresh();
     } catch (error:any) {
       toast.error(`SignIn failed: ${error}`, {
         position: "top-center",

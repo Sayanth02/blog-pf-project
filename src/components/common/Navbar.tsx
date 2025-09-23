@@ -20,17 +20,50 @@ const Navbar = () => {
 
 
   useEffect(() => {
+    let isMounted = true;
+
     const checkAuth = async () => {
       try {
         const res = await getCurrentUser();
-        setUser(res)
+        if (!isMounted) return;
+        setUser(res);
         setIsAuthenticated(!!res);
       } catch (error) {
         console.error("Error checking authentication:", error);
+        if (!isMounted) return;
         setIsAuthenticated(false);
       }
     };
+
+    const handleAuthChanged = () => {
+      checkAuth();
+    };
+
+    const handleVisibilityOrFocus = () => {
+      if (typeof document !== "undefined" && document.visibilityState === "visible") {
+        checkAuth();
+      }
+    };
+
     checkAuth();
+    if (typeof window !== "undefined") {
+      window.addEventListener("auth-changed", handleAuthChanged);
+      window.addEventListener("focus", handleVisibilityOrFocus);
+    }
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", handleVisibilityOrFocus);
+    }
+
+    return () => {
+      isMounted = false;
+      if (typeof window !== "undefined") {
+        window.removeEventListener("auth-changed", handleAuthChanged);
+        window.removeEventListener("focus", handleVisibilityOrFocus);
+      }
+      if (typeof document !== "undefined") {
+        document.removeEventListener("visibilitychange", handleVisibilityOrFocus);
+      }
+    };
   }, []);
 
   const handleLogout = async () => {
