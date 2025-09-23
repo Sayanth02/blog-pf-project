@@ -17,11 +17,13 @@ const Page = async ({ params }: { params: { postId: string } }) => {
       const res = await fetch(`${protocol}://${host}/api/posts/${postId}`, {
         cache: "no-store",
       });
+      console.log("Fetch status:", res.status);
       if (!res.ok) {
         throw new Error(`Failed with status ${res.status}`);
       }
       post = await res.json();
     } catch (err) {
+      console.error("Error fetching post:", err);
       return (
         <div className="max-w-4xl mx-auto px-4 py-8">Failed to fetch post</div>
       );
