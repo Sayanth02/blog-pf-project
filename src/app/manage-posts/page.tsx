@@ -1,8 +1,7 @@
 import { headers } from "next/headers";
-import Link from "next/link";
-import PostCard from "@/components/post/PostCard";
+import ManagePostsClient from "@/components/post/ManagePostsClient";
 
-export default async function MyPostsPage({
+export default async function ManagePostsPage({
   searchParams,
 }: {
   searchParams?: { page?: string; limit?: string };
@@ -30,7 +29,7 @@ export default async function MyPostsPage({
 
   if (res.status === 401) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-10">Please sign in to view your posts.</div>
+      <div className="max-w-5xl mx-auto px-4 py-10">Please sign in to manage your posts.</div>
     );
   }
   if (!res.ok) {
@@ -44,34 +43,24 @@ export default async function MyPostsPage({
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">My Posts</h1>
+        <h1 className="text-xl font-semibold">Manage Posts</h1>
         <span className="text-sm text-neutral-600">
           Page {pagination.page} of {pagination.totalPages} · {pagination.total} total
         </span>
       </div>
 
-      {data?.length === 0 ? (
-        <div className="text-neutral-600">You haven't written any posts yet.</div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {data.map((post: any) => (
-            <Link key={post._id} href={`/post/${post._id}`} className="block">
-              <PostCard post={post} showBookmarkButton={false} />
-            </Link>
-          ))}
-        </div>
-      )}
+      <ManagePostsClient initialData={data} />
 
       <div className="flex items-center justify-between pt-4">
         <a
-          href={`/profile/posts?page=${Math.max(1, pagination.page - 1)}&limit=${limit}`}
+          href={`/manage-posts?page=${Math.max(1, pagination.page - 1)}&limit=${limit}`}
           className={`px-3 py-2 text-sm rounded border ${pagination.page <= 1 ? "pointer-events-none opacity-50" : ""}`}
           aria-disabled={pagination.page <= 1}
         >
           Previous
         </a>
         <a
-          href={`/profile/posts?page=${Math.min(pagination.totalPages, pagination.page + 1)}&limit=${limit}`}
+          href={`/manage-posts?page=${Math.min(pagination.totalPages, pagination.page + 1)}&limit=${limit}`}
           className={`px-3 py-2 text-sm rounded border ${pagination.page >= pagination.totalPages ? "pointer-events-none opacity-50" : ""}`}
           aria-disabled={pagination.page >= pagination.totalPages}
         >

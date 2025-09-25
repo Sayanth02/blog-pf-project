@@ -8,9 +8,10 @@ import { postBookmarks } from "@/services/bookmarkService";
 type Props = {
   postId: string;
   initialBookmarked?: boolean;
+  variant?: 'absolute' | 'inline'; // Add variant prop for different positioning
 };
 
-export default function BookmarkButton({ postId, initialBookmarked }: Props) {
+export default function BookmarkButton({ postId, initialBookmarked, variant = 'absolute' }: Props) {
   const [bookmarked, setBookmarked] = useState(Boolean(initialBookmarked));
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -54,13 +55,18 @@ export default function BookmarkButton({ postId, initialBookmarked }: Props) {
     }
   };
 
+  const baseClasses = "inline-flex items-center justify-center rounded-md p-2 bg-white/80 hover:bg-white shadow-sm ring-1 ring-black/5 transition disabled:opacity-60";
+  const positionClasses = variant === 'absolute'
+    ? "absolute top-2 right-2 flex flex-col items-end gap-2"
+    : "relative";
+
   return (
-    <div className="absolute top-2 right-2 flex flex-col items-end gap-2">
+    <div className={positionClasses}>
       <button
         onClick={toggleBookmark}
         disabled={loading}
         aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
-        className="inline-flex items-center justify-center rounded-md p-2 bg-white/80 hover:bg-white shadow-sm ring-1 ring-black/5 transition disabled:opacity-60"
+        className={baseClasses}
       >
         {bookmarked ? <FaBookmark /> : <FaRegBookmark />}
       </button>

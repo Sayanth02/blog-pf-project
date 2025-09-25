@@ -1,6 +1,12 @@
 import Image from "next/image";
 import React from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Edit, Trash2, Eye, Calendar, User } from "lucide-react";
 import BookmarkButton from "./BookMarkButton";
+import { deletePost } from "@/services/postServices";
+import { toast } from "sonner";
 
 type Category = { _id: string; name: string }
 type Author = { _id: string; username: string; profileDetails?: profileDetails };
@@ -17,7 +23,55 @@ type Post = {
   profileDetails?: profileDetails;
 };
 
-const PostCard = ({ post, showBookmarkButton = true }: { post: Post; showBookmarkButton?: boolean }) => {
+type PostCardProps = {
+  post: Post;
+  isOwner?: boolean;
+  showActions?: boolean;
+  onDelete?: (postId: string) => void;
+  variant?: 'default' | 'manage';
+};
+
+const PostCard = ({
+  post,
+  isOwner = false,
+  showActions = false,
+  onDelete,
+  variant = 'default',
+}: PostCardProps) => {
+  const router = useRouter();
+
+  const handleView = () => {
+    router.push(`/post/${post._id}`);
+  };
+
+  const handleEdit = () => {
+    router.push(`/edit/${post._id}`);
+  };
+
+  const handleDelete = async () => {
+    if (!confirm("Are you sure you want to delete this post? This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      await deletePost(post._id);
+      toast.success("Post deleted successfully!");
+      if (onDelete) {
+        onDelete(post._id);
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      toast.error("Failed to delete post");
+    }
+  };
+
+  // Extract content preview from HTML content
+  const getContentPreview = (content: string, maxLength: number = 120) => {
+    const textContent = content.replace(/<[^>]*>/g, '').trim();
+    return textContent.length > maxLength 
+      ? textContent.substring(0, maxLength) + '...' 
+      : textContent;
+  };
   return (
     <div className="rounded-lg shadow-md bg-neutral-100 hover:shadow-lg transition-shadow duration-300 relative">
       {/* Thumbnail */}
@@ -25,8 +79,16 @@ const PostCard = ({ post, showBookmarkButton = true }: { post: Post; showBookmar
       <img
         src={post.thumbnail || "/images/hero.jpg"}
         alt={post.title}
-        className=" lg:rounded-t-lg w-full object-cover aspect-[2/1]"
+        className=" lg:rounded-t-lg w-full object-cover aspect-[2/1] relative"
       />
+
+      {/* Bookmark button overlay */}
+      <BookmarkButton
+        postId={post._id}
+        initialBookmarked={post.isBookmarked}
+        variant="absolute"
+      />
+
       <div className="p-4 space-y-2">
         {post.categoryIds?.map((cat) => (
           <span
@@ -70,9 +132,6 @@ const PostCard = ({ post, showBookmarkButton = true }: { post: Post; showBookmar
           ))}
         </div>
       </div>
-      {showBookmarkButton && (
-        <BookmarkButton postId={post._id} initialBookmarked={post.isBookmarked} />
-      )}
     </div>
   );
 };

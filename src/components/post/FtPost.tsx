@@ -59,7 +59,7 @@ const FtPost = () => {
               <PostCard
                 key={p._id}
                 post={{
-                  id: p._id,
+                  _id: p._id,
                   title: p.title,
                   content: p.summary ?? "",
                   categoryIds: p.categoryIds,

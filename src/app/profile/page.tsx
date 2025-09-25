@@ -51,8 +51,8 @@ export default async function ProfilePage() {
         <a href="/profile/edit" className="px-3 py-2 text-sm rounded border">
           Edit Profile
         </a>
-        <a href="/profile/posts" className="px-3 py-2 text-sm rounded border">
-          My Posts
+        <a href="/manage-posts" className="px-3 py-2 text-sm rounded border">
+          Manage Posts
         </a>
         <a href="/bookmarks" className="px-3 py-2 text-sm rounded border">
           Bookmarks

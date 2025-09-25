@@ -1,6 +1,8 @@
 import React, { Suspense } from "react";
 import { headers } from "next/headers";
 import PostDetailSkeleton from "@/components/post/PostDetailSkeleton";
+import PostDetailContent from "@/components/post/PostDetailContent";
+import { getAuthContext } from "@/app/api/auth/withAuth";
 
 const Page = async ({ params }: { params: { postId: string } }) => {
   const { postId } = params;
@@ -13,15 +15,24 @@ const Page = async ({ params }: { params: { postId: string } }) => {
 
   async function PostContent() {
     let post;
+    let currentUser = null;
+    
     try {
-      const res = await fetch(`${protocol}://${host}/api/posts/${postId}`, {
-        cache: "no-store",
-      });
-      console.log("Fetch status:", res.status);
-      if (!res.ok) {
-        throw new Error(`Failed with status ${res.status}`);
+      // Fetch post and user context in parallel
+      const [postRes, userContext] = await Promise.all([
+        fetch(`${protocol}://${host}/api/posts/${postId}`, {
+          cache: "no-store",
+          headers: hdrs,
+        }),
+        getAuthContext({ headers: hdrs } as any).catch(() => null)
+      ]);
+
+      console.log("Fetch status:", postRes.status);
+      if (!postRes.ok) {
+        throw new Error(`Failed with status ${postRes.status}`);
       }
-      post = await res.json();
+      post = await postRes.json();
+      currentUser = userContext;
     } catch (err) {
       console.error("Error fetching post:", err);
       return (
@@ -33,41 +44,17 @@ const Page = async ({ params }: { params: { postId: string } }) => {
       return <div className="max-w-4xl mx-auto px-4 py-8">Loading...</div>;
     }
 
+    // Check if current user is the owner of the post
+    const isOwner = currentUser && post.authorIds?.some(
+      (author: any) => author._id === currentUser.userId || author === currentUser.userId
+    );
+
     return (
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {post.thumbnail && (
-          <div className="w-full mb-6">
-            <img
-              src={post.thumbnail}
-              alt={post.title}
-              className="w-full h-auto rounded-lg object-cover"
-            />
-          </div>
-        )}
-
-        <div className="mb-3">
-          {post.categoryIds?.map((cat: { _id: string; name: string }) => (
-            <span
-              key={cat._id}
-              className="inline-block text-sm text-neutral-600 mr-3"
-            >
-              {cat.name}
-            </span>
-          ))}
-        </div>
-
-        <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
-        <p className="text-sm text-neutral-500 mb-8">
-          {post.publishDate
-            ? new Date(post.publishDate).toLocaleDateString()
-            : ""}
-        </p>
-
-        <div
-          className="prose max-w-none"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-      </div>
+      <PostDetailContent 
+        post={post} 
+        currentUserId={currentUser?.userId}
+        isOwner={isOwner}
+      />
     );
   }
 
