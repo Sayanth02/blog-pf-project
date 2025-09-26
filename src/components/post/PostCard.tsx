@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Edit, Trash2, Eye, Calendar, User } from "lucide-react";
-import BookmarkButton from "./BookMarkButton";
 import { deletePost } from "@/services/postServices";
 import { toast } from "sonner";
 
@@ -80,13 +79,6 @@ const PostCard = ({
         src={post.thumbnail || "/images/hero.jpg"}
         alt={post.title}
         className=" lg:rounded-t-lg w-full object-cover aspect-[2/1] relative"
-      />
-
-      {/* Bookmark button overlay */}
-      <BookmarkButton
-        postId={post._id}
-        initialBookmarked={post.isBookmarked}
-        variant="absolute"
       />
 
       <div className="p-4 space-y-2">

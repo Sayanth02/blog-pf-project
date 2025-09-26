@@ -82,16 +82,14 @@ const PostDetailContent: React.FC<PostDetailContentProps> = ({
         </div>
       )}
 
-      {/* Bookmark button for non-owners */}
-      {!isOwner && currentUserId && (
-        <div className="flex justify-end mb-4">
-          <BookmarkButton
-            postId={post._id}
-            initialBookmarked={post.isBookmarked}
-            variant="inline"
-          />
-        </div>
-      )}
+      {/* Bookmark button */}
+      <div className="flex justify-end mb-4">
+        <BookmarkButton
+          postId={post._id}
+          initialBookmarked={post.isBookmarked}
+          variant="inline"
+        />
+      </div>
 
       {/* Post thumbnail */}
       {post.thumbnail && (
