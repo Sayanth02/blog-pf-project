@@ -16,30 +16,37 @@ const Page = async ({ params }: { params: { postId: string } }) => {
   async function PostContent() {
     let post;
     let currentUser = null;
-    
+
     try {
-      // Fetch post and user context in parallel
-      // Use a relative URL and forward only the cookie header to avoid forbidden headers (e.g., host) on Vercel
+      // Build absolute origin from incoming request headers and forward only cookies
+      const proto = hdrs.get("x-forwarded-proto") || "http";
+      const h = hdrs.get("x-forwarded-host") || hdrs.get("host") || "localhost";
+      const origin = `${proto}://${h}`;
+      const cookie = hdrs.get("cookie") ?? "";
+
       const [postRes, userContext] = await Promise.all([
-        fetch(`/api/posts/${postId}`, {
+        fetch(`${origin}/api/posts/${postId}`, {
           cache: "no-store",
-          headers: {
-            cookie: hdrs.get("cookie") ?? "",
-          },
+          headers: cookie ? { cookie } : {},
         }),
-        getAuthContext({ headers: hdrs } as any).catch(() => null)
+        getAuthContext({ headers: hdrs } as any).catch(() => null),
       ]);
 
-      console.log("Fetch status:", postRes.status);
       if (!postRes.ok) {
-        throw new Error(`Failed with status ${postRes.status}`);
+        const txt = await postRes.text();
+        throw new Error(`Fetch failed: ${postRes.status} ${postRes.statusText} - ${txt}`);
       }
       post = await postRes.json();
       currentUser = userContext;
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error fetching post:", err);
       return (
-        <div className="max-w-4xl mx-auto px-4 py-8">Failed to fetch post</div>
+        <div className="max-w-4xl mx-auto px-4 py-8 text-red-600">
+          <div>Failed to fetch post</div>
+          <div style={{ fontSize: "0.9em", marginTop: 8 }}>
+            {err?.message ? err.message : String(err)}
+          </div>
+        </div>
       );
     }
 
@@ -53,8 +60,8 @@ const Page = async ({ params }: { params: { postId: string } }) => {
     );
 
     return (
-      <PostDetailContent 
-        post={post} 
+      <PostDetailContent
+        post={post}
         currentUserId={currentUser?.userId}
         isOwner={isOwner}
       />
