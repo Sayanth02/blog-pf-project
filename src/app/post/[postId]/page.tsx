@@ -19,10 +19,13 @@ const Page = async ({ params }: { params: { postId: string } }) => {
     
     try {
       // Fetch post and user context in parallel
+      // Use a relative URL and forward only the cookie header to avoid forbidden headers (e.g., host) on Vercel
       const [postRes, userContext] = await Promise.all([
-        fetch(`${protocol}://${host}/api/posts/${postId}`, {
+        fetch(`/api/posts/${postId}`, {
           cache: "no-store",
-          headers: hdrs,
+          headers: {
+            cookie: hdrs.get("cookie") ?? "",
+          },
         }),
         getAuthContext({ headers: hdrs } as any).catch(() => null)
       ]);
