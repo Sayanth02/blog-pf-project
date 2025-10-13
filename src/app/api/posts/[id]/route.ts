@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Post, { IPost } from "@/models/post";
-import "@/models/category"; // ensure Category model is registered for populate
+import "@/models/category"; 
 import User from "@/models/user";
 import { Types } from "mongoose";
 import { getAuthContext } from "../../auth/withAuth";

@@ -9,8 +9,6 @@ const nextConfig: NextConfig = {
         hostname: "res.cloudinary.com",
       },
     ],
-    // or, for older Next.js versions:
-    // domains: ["res.cloudinary.com"],
   },
   // Do not fail the production build on ESLint errors
   eslint: {

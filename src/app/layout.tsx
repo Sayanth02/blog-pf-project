@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {  Lato ,Questrial} from "next/font/google";
+import {  Lato , Questrial, Source_Code_Pro} from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner"
 import Navbar from "@/components/common/Navbar";
@@ -13,6 +13,12 @@ const questrial = Questrial({
   subsets: ["latin"],
   weight: "400",
 });
+
+// const sourceCodePro = Source_Code_Pro({
+//   variable: "--font-source-code-pro",
+//   subsets: ["latin"],
+//   weight: ["400"],
+// }) ;
 
 const lato = Lato({
   variable: "--font-lato",
@@ -34,7 +40,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${questrial.variable} ${lato.variable} antialiased`}>
+      <body
+        className={`${questrial.variable} ${lato.variable} antialiased`}
+      >
         <Navbar />
         {children}
         <Footer />

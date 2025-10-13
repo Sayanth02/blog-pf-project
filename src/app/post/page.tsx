@@ -31,14 +31,14 @@ const TestPost = () => {
 
   return (
     <div className="p-16">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1  xl:grid-cols-2 gap-4">
         {loading
           ? Array.from({ length: limit }).map((_, idx) => (
               <PostCardSkeleton key={idx} />
             ))
           : posts.map((post: any) => (
               <Link key={post._id} href={`/post/${post._id}`}>
-                <PostCard post={post} />
+                <PostCard  post={post} />
               </Link>
             ))}
       </div>

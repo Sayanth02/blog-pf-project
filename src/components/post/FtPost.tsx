@@ -36,7 +36,7 @@ const FtPost = () => {
   }, []);
 
   return (
-    <div className="p-16 bg-neutaral-lightest">
+    <div className="p-16 ">
       <div className="w-full ">
         <div className="text-center mb-8">
           <span className="font-extrabold">Blogs</span>
@@ -47,7 +47,7 @@ const FtPost = () => {
             Dive into latest insights and stories
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {loading && [1, 2, 3, 4].map((k) => <PostCardSkeleton key={k} />)}
           {!loading && posts.length === 0 && (
             <p className="text-center text-neutral-500 w-full">
@@ -57,6 +57,7 @@ const FtPost = () => {
           {!loading &&
             posts.map((p) => (
               <PostCard
+              variant="vertical"
                 key={p._id}
                 post={{
                   _id: p._id,

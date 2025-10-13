@@ -1,0 +1,39 @@
+/* Custom Swiper Styles for Hero Carousel */
+
+/* Hide default navigation buttons */
+.hero-swiper .swiper-button-next,
+.hero-swiper .swiper-button-prev {
+  display: none;
+}
+
+/* Custom Pagination Dots */
+.custom-pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #d1d5db;
+  opacity: 1;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+  background: #374151;
+  width: 8px;
+  height: 8px;
+}
+
+/* Make custom pagination inline and prevent full-width stretching */
+.custom-pagination.swiper-pagination {
+  position: static !important;
+  display: inline-flex !important;
+  width: auto !important;
+  align-items: center;
+  gap: 8px;
+  margin: 0; /* reset Swiper default */
+}
+
+/* Optional: add small spacing between bullets */
+.custom-pagination .swiper-pagination-bullet {
+  margin: 0 4px;
+}
