@@ -30,7 +30,7 @@ const Card = () => {
       },
     ];
   return (
-    <div className="flex flex-col lg:flex-row justify-center gap-4 p-4  rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div className="flex flex-col lg:flex-row justify-center gap-4 p-4  rounded-lg ">
       {ExploreItems.map((item, idx) => (
         <div key={idx} className="flex flex-col items-center gap-3 p-8 ">
           <span className="text-xl">{item.icon}</span>

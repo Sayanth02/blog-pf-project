@@ -126,14 +126,14 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="w-full h-20 text-gray-50 flex justify-between items-center px-6 md:px-16 py-4 relative ">
+      <nav className="w-full h-26 text-gray-50 flex justify-between items-center px-6 md:px-16 py-2 relative sticky top-0 bg-white/95 backdrop-blur-sm z-50">
         {/* Left side - Nav links (desktop only) */}
         <ul className="hidden md:flex space-x-6 items-center">
           {navLinks.map((link) => (
             <li key={link.name}>
               <Link
                 href={link.href}
-                className="text-neutral-900 hover:text-neutral-900 transition-colors text-lg"
+                className="text-neutral-900 hover:text-neutral-900 transition-colors text-lg font-medium"
               >
                 {link.name}
               </Link>

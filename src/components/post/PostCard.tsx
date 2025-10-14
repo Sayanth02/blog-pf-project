@@ -120,7 +120,7 @@ const PostCard = ({
             {/* Category */}
             {post.categoryIds && post.categoryIds.length > 0 && (
               <div className="mb-2">
-                <span className="inline-block px-3 py-1 text-xs font-medium text-neutral-600 bg-neutral-100 rounded-full">
+                <span className="inline-block px-3 py-2 text-xs font-medium text-neutral-600  rounded-full">
                   {post.categoryIds[0].name}
                 </span>
               </div>
@@ -222,7 +222,7 @@ const PostCard = ({
           {/* Category */}
           {post.categoryIds && post.categoryIds.length > 0 && (
             <div className="mb-3">
-              <span className="inline-block px-4 py-1.5 text-xs font-medium text-neutral-600 bg-neutral-50 rounded-full border border-neutral-200">
+              <span className="inline-block px-4 py-2 text-xs font-medium text-neutral-600  rounded-full border border-neutral-200">
                 {post.categoryIds[0].name}
               </span>
             </div>
@@ -299,7 +299,7 @@ const PostCard = ({
             {/* Category */}
             {post.categoryIds && post.categoryIds.length > 0 && (
               <div className="mb-3">
-                <span className="inline-block px-4 py-1.5 text-xs font-medium text-neutral-600 bg-neutral-50 rounded-full border border-neutral-200">
+                <span className="inline-block px-4 py-2 text-xs font-medium text-neutral-600 rounded-full border border-neutral-200">
                   {post.categoryIds[0].name}
                 </span>
               </div>

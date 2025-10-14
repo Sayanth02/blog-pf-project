@@ -4,6 +4,8 @@ import PostCard from "./PostCard";
 import Button from "../reusable/Button";
 import { getFeaturedPosts } from "@/services/postServices";
 import PostCardSkeleton from "./PostCardSkeleton";
+import { CircleArrowRight } from "lucide-react";
+import Link from "next/link";
 
 type Category = { _id: string; name: string };
 type FeaturedPost = {
@@ -36,16 +38,14 @@ const FtPost = () => {
   }, []);
 
   return (
-    <div className="p-16 ">
+    <div className="p-6 md:p-10 lg:p-16 ">
       <div className="w-full ">
-        <div className="text-center mb-8">
-          <span className="font-extrabold">Blogs</span>
-          <h1 className="text-5xl font-extralight mt-4">
-            Explore Our Featured Blogs
-          </h1>
-          <p className="text-lg mt-6 tracking-wider">
-            Dive into latest insights and stories
-          </p>
+        <div className="w-full border border-neutral-300 rounded-3xl p-8 mb-4 flex flex-col md:flex-row justify-between">
+          <h2 className="font-semibold ">Featured Posts</h2>
+          <Link className="font-bold flex gap-2 item-center" href={"/posts"}>
+            <span className="text-lg font-bold underline">Discover more</span>{" "}
+            <CircleArrowRight />
+          </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {loading && [1, 2, 3, 4].map((k) => <PostCardSkeleton key={k} />)}
@@ -57,7 +57,7 @@ const FtPost = () => {
           {!loading &&
             posts.map((p) => (
               <PostCard
-              variant="vertical"
+                variant="vertical"
                 key={p._id}
                 post={{
                   _id: p._id,
@@ -68,10 +68,6 @@ const FtPost = () => {
                 }}
               />
             ))}
-        </div>
-
-        <div className="flex justify-center mt-16">
-          <Button variant="outlined" label="View all" />
         </div>
       </div>
     </div>
