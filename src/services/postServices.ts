@@ -36,18 +36,20 @@ export const getSinglePost = async (id: string) => {
 // create a new post
 export const createPost = async (post: {
   title: string;
+  summary?: string;
   thumbnail: string;
   content: string;
   categoryIds?: string[];
 }) => {
   // const userId = await getCurrentUser();
-  const { title, thumbnail, content, categoryIds } = post;
+  const { title, summary, thumbnail, content, categoryIds } = post;
 
   try {
     const res = await axios.post(
       "/api/posts",
       {
         title,
+        summary,
         thumbnail,
         content,
         categoryIds: categoryIds ?? [],

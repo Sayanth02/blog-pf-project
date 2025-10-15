@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {  Lato , Questrial, Source_Code_Pro} from "next/font/google";
+import {  Lato , Questrial, Source_Code_Pro, } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner"
 import Navbar from "@/components/common/Navbar";

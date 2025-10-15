@@ -10,12 +10,14 @@ import { Button } from "../../ui/button";
 import Image from "@tiptap/extension-image";
 import { Input } from "../../ui/input";
 import CategorySelect from "./CategorySelect";
+import { Textarea } from "@/components/ui/textarea";
 
 
 interface TextEditorProps {
   initialContent?: string;
   onSubmit: (post: {
     title: string;
+    summary: string;
     thumbnail: string;
     content: string;
     categoryIds: string[];
@@ -26,6 +28,7 @@ export default function TextEditor({
   onSubmit,
 }: TextEditorProps) {
   const [title, setTitle] = useState("");
+  const [summary, setSummary] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -128,6 +131,7 @@ export default function TextEditor({
 
     onSubmit({
       title,
+      summary,
       thumbnail: thumbnailUrl,
       content,
       categoryIds: category ? [category] : [],
@@ -144,7 +148,16 @@ export default function TextEditor({
         onChange={(e) => setTitle(e.target.value)}
         className="max-w-2xl"
       />
-
+      {/* summary */}
+     
+        <Textarea
+          id="summary"
+          name="summary"
+          value={summary}
+          onChange={(e) => setSummary(e.target.value)}
+          placeholder="Brief description of the post"
+          rows={3}
+        />
       {/* Thumbnail picker */}
       <div className="space-y-2">
         <Input
@@ -162,7 +175,11 @@ export default function TextEditor({
         />
         {thumbnail && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={thumbnail} alt="Thumbnail preview" className="h-32 rounded border" />
+          <img
+            src={thumbnail}
+            alt="Thumbnail preview"
+            className="h-32 rounded border"
+          />
         )}
       </div>
       {/* Category Select */}

@@ -2,7 +2,6 @@ import Image from "next/image";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Edit, Trash2, Eye, Calendar, User, MessageSquare } from "lucide-react";
 import { deletePost } from "@/services/postServices";
 import { toast } from "sonner";
@@ -17,6 +16,7 @@ type profileDetails = { profileImageUrl?: string };
 type Post = {
   _id: string;
   title: string;
+  summary : string;
   content: string;
   categoryIds?: Category[];
   authorIds?: Author[];
@@ -73,13 +73,7 @@ const PostCard = ({
     }
   };
 
-  // Extract content preview from HTML content
-  // const getContentPreview = (content: string, maxLength: number = 120) => {
-  //   const textContent = content.replace(/<[^>]*>/g, "").trim();
-  //   return textContent.length > maxLength
-  //     ? textContent.substring(0, maxLength) + "..."
-  //     : textContent;
-  // };
+
 
   const formatTimeAgo = (date: string) => {
     const now = new Date();
@@ -134,6 +128,7 @@ const PostCard = ({
             {/* Description */}
             <p className="text-sm text-neutral-500 mb-3 line-clamp-2">
               {/* {getContentPreview(post.content)} */}
+              {post.summary}
             </p>
 
             {/* Meta Info */}
@@ -306,13 +301,13 @@ const PostCard = ({
             )}
 
             {/* Title */}
-            <h2 className="text-2xl font-bold text-neutral-900 mb-3 leading-snug">
+            <h2 className="text-2xl font-bold text-neutral-900 mb-3 leading-snug line-clamp-2">
               {post.title}
             </h2>
 
             {/* Description */}
-            <p className="text-base text-neutral-500 leading-relaxed mb-4">
-              {/* {getContentPreview(post.content, 150)} */}
+            <p className="text-base text-neutral-500 leading-relaxed mb-4 line-clamp-3">
+              {post.summary}
             </p>
           </div>
 

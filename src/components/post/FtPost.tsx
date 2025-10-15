@@ -62,6 +62,7 @@ const FtPost = () => {
                 post={{
                   _id: p._id,
                   title: p.title,
+                  summary: p.summary ?? "",
                   content: p.summary ?? "",
                   categoryIds: p.categoryIds,
                   thumbnail: p.thumbnail,
