@@ -65,7 +65,7 @@ const HeroCarousel = () => {
   }
 
   return (
-    <div className="w-full px-4 md:px-8 lg:px-16 py-8">
+    <div className="w-full px-4 md:px-8 lg:px-16 pt-8">
       <Swiper
         modules={[Autoplay, EffectFade]}
         spaceBetween={0}

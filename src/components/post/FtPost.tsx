@@ -11,8 +11,9 @@ type Category = { _id: string; name: string };
 type FeaturedPost = {
   _id: string;
   title: string;
-  slug: string;
+  // authorIds?: Author[];
   publishDate?: string;
+  slug: string;
   thumbnail?: string;
   summary?: string;
   categoryIds?: Category[];

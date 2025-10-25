@@ -119,14 +119,14 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Blogs", href: "/post" },
+    { name: "All Articles", href: "/post" },
     { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
     <>
-      <nav className="w-full h-26 text-gray-50 flex justify-between items-center px-6 md:px-16 py-2 relative sticky top-0 bg-white/95 backdrop-blur-sm z-50">
+      <nav className="w-full h-20 text-gray-50 flex justify-between items-center px-6 md:px-16 py-2 relative sticky top-0 bg-white/95 backdrop-blur-sm z-50">
         {/* Left side - Nav links (desktop only) */}
         <ul className="hidden md:flex space-x-6 items-center">
           {navLinks.map((link) => (
