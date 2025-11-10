@@ -1,6 +1,7 @@
 "use client";
 import HeroCarousel from "@/components/home/hero/HeroCarousel";
 import FtPost from "@/components/post/FtPost";
+import CategoryBar from "@/components/category/CategoryBar";
 import Card from "@/components/home/explore/card";
 import About from "@/components/about/About";
 
@@ -11,6 +12,7 @@ export default function Home() {
       <FtPost />
       {/* <Card /> */}
       <About/>
+      <CategoryBar/>
     </div>
   );
 }

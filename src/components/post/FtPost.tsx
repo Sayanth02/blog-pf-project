@@ -4,8 +4,8 @@ import PostCard from "./PostCard";
 import Button from "../reusable/Button";
 import { getFeaturedPosts } from "@/services/postServices";
 import PostCardSkeleton from "./PostCardSkeleton";
-import { CircleArrowRight } from "lucide-react";
-import Link from "next/link";
+import SectionHeader from "./SectionHeader";
+
 
 type Category = { _id: string; name: string };
 type FeaturedPost = {
@@ -41,13 +41,7 @@ const FtPost = () => {
   return (
     <div className="p-6 md:p-10 lg:p-16 ">
       <div className="w-full ">
-        <div className="w-full border border-neutral-300 rounded-3xl p-8 mb-4 flex flex-col md:flex-row justify-between">
-          <h2 className="font-semibold ">Featured Posts</h2>
-          <Link className="font-bold flex gap-2 item-center" href={"/posts"}>
-            <span className="text-lg font-bold underline">Discover more</span>{" "}
-            <CircleArrowRight />
-          </Link>
-        </div>
+        <SectionHeader title="Featured Posts" link="post" />
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {loading && [1, 2, 3, 4].map((k) => <PostCardSkeleton key={k} />)}
           {!loading && posts.length === 0 && (

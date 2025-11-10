@@ -37,16 +37,6 @@ const About = () => {
           </div>
 
           <div className="flex justify-center">
-            {/* <Card className="w-full max-w-sm items-center">
-              <CardContent className="pt-6 flex flex-col items-center gap-4">
-                <Avatar className="h-28 w-28">
-                  <AvatarImage src="/images/profile.jpg" alt="Sayanth" />
-                  <AvatarFallback className="bg-blue-500 text-white text-2xl">S</AvatarFallback>
-                </Avatar>
-                <Image src="/window.svg" alt="workspace" width={320} height={200} className="w-full h-auto" />
-              </CardContent>
-            </Card> */}
-
             <svg
               width="400"
               height="400"

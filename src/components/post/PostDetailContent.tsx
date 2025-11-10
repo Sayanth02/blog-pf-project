@@ -33,32 +33,32 @@ const PostDetailContent: React.FC<PostDetailContentProps> = ({
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
 
-  const handleEdit = () => {
-    router.push(`/edit/${post._id}`);
-  };
+  // const handleEdit = () => {
+  //   router.push(`/edit/${post._id}`);
+  // };
 
-  const handleDelete = async () => {
-    if (!confirm("Are you sure you want to delete this post? This action cannot be undone.")) {
-      return;
-    }
+  // const handleDelete = async () => {
+  //   if (!confirm("Are you sure you want to delete this post? This action cannot be undone.")) {
+  //     return;
+  //   }
 
-    try {
-      setDeleting(true);
-      await deletePost(post._id);
-      toast.success("Post deleted successfully!");
-      router.push("/"); // Redirect to home or posts list
-    } catch (error) {
-      console.error("Error deleting post:", error);
-      toast.error("Failed to delete post");
-    } finally {
-      setDeleting(false);
-    }
-  };
+  //   try {
+  //     setDeleting(true);
+  //     await deletePost(post._id);
+  //     toast.success("Post deleted successfully!");
+  //     router.push("/"); 
+  //   } catch (error) {
+  //     console.error("Error deleting post:", error);
+  //     toast.error("Failed to delete post");
+  //   } finally {
+  //     setDeleting(false);
+  //   }
+  // };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Action buttons for post owner */}
-      {isOwner && (
+      {/* {isOwner && (
         <div className="flex justify-end gap-2 mb-4">
           <Button
             variant="outline"
@@ -80,16 +80,16 @@ const PostDetailContent: React.FC<PostDetailContentProps> = ({
             {deleting ? "Deleting..." : "Delete"}
           </Button>
         </div>
-      )}
+      )} */}
 
       {/* Bookmark button */}
-      <div className="flex justify-end mb-4">
+      {/* <div className="flex justify-end mb-4">
         <BookmarkButton
           postId={post._id}
           initialBookmarked={post.isBookmarked}
           variant="inline"
         />
-      </div>
+      </div> */}
 
       {/* Post thumbnail */}
       {post.thumbnail && (
